@@ -125,6 +125,8 @@
 
         /* Animation Utility Classes */
         .u-overflow-hidden { overflow: hidden; }
+        /* Initial opacity 0 to prevent flash of unstyled content */
+        .js-text-reveal { opacity: 0; }
         .char-reveal { display: inline-block; opacity: 0; will-change: opacity, transform, filter; } 
         
         /* Parallax & Hover Effect Wrapper */
@@ -837,6 +839,9 @@
                 });
                 el.dataset.split = true;
                 
+                // IMPORTANT: Restore opacity after split to allow animation
+                gsap.set(el, { opacity: 1 });
+
                 // Cinematic Blur Reveal
                 gsap.fromTo(el.querySelectorAll('.char-reveal'), 
                     { opacity: 0, y: 40, filter: 'blur(10px)' },
@@ -915,8 +920,8 @@
                   .to('.grid-cell', { opacity: 0, scale: 0.8, duration: 0.8, stagger: { amount: 0.5, from: "end" }, ease: "power2.in" })
                   .to('#loading', { opacity: 0, duration: 0.5, onComplete: () => {
                       document.getElementById('loading').style.display='none';
-                      // Start Hero Anim after load
-                      initScrollAnimations();
+                      // Start Hero Anim after load with delay for visibility
+                      setTimeout(initScrollAnimations, 800); 
                   }});
 
             // --- 2. Content Init ---
