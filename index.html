@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ja" class="wf-active">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>長野・松本の注文住宅・デザイン住宅ならグラン・アルプス</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* --- CSS Variables --- */
+        :root {
+            --col-base: #FAFAFA;
+            --col-text: #2A2A2A;
+            --col-text-light: #666666;
+            --col-accent: #9A8F85;
+            --col-line: #E0E0E0;
+            --col-white: #FFFFFF;
+            --col-black: #111111;
+            --font-serif: "Noto Serif JP", "Yu Mincho", serif;
+            --font-sans: "Noto Sans JP", Arial, sans-serif;
+            --easing: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { font-size: 16px; }
+        /* Lenis Recommended CSS */
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        body {
+            font-family: var(--font-serif);
+            color: var(--col-text);
+            background-color: var(--col-base);
+            line-height: 2.0;
+            letter-spacing: 0.05em;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        a { text-decoration: none; color: inherit; cursor: pointer; transition: opacity 0.3s; }
+        a:hover { opacity: 0.7; }
+        img { max-width: 100%; height: auto; vertical-align: bottom; display: block; }
+        ul { list-style: none; }
+        .u-serif { font-family: var(--font-serif); }
+        .u-sans { font-family: var(--font-sans); }
+
+        /* --- Loading Screen --- */
+        #loading {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--col-base); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .loading__content { text-align: center; z-index: 10001; position: relative; }
+        .loading__logo {
+            font-family: var(--font-serif); font-size: 1.8rem; letter-spacing: 0.2em;
+            color: var(--col-text); opacity: 0; transform: translateY(10px);
+        }
+        #grid-opening {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10000; display: grid; pointer-events: none;
+        }
+        .grid-cell {
+            width: 100%; height: 100%; position: relative; overflow: hidden;
+            background-color: var(--col-base); border: 1px solid rgba(255,255,255,0.1); opacity: 0;
+        }
+        .grid-cell img {
+            width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: grayscale(20%);
+        }
+
+        /* --- SPA Transition Curtain --- */
+        .page-transition-curtain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--col-text); z-index: 9998;
+            transform: scaleY(0); transform-origin: bottom; pointer-events: none;
+        }
+
+        /* --- Page Sections --- */
+        #page-top { display: block; }
+        .spa-page {
+            display: none; opacity: 0; padding-top: 100px; min-height: 100vh;
+        }
+        .spa-page.is-active { display: block; animation: pageIn 0.8s var(--easing) forwards; }
+
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Layout Components --- */
+        .section { padding: 120px 5%; max-width: 1400px; margin: 0 auto; position: relative;}
+        .section__header { margin-bottom: 80px; position: relative; }
+        
+        .section__title { 
+            font-size: 2.5rem; margin-bottom: 10px; padding-left: 30px; position: relative; overflow: hidden;
+        }
+        .section__title-line {
+            position: absolute; top: 0; left: 0; height: 100%; width: 1px; background-color: var(--col-text);
+            transform: scaleY(0); transform-origin: top; 
+        }
+        
+        .section__subtitle { font-size: 0.9rem; color: var(--col-accent); margin-left: 30px; font-family: var(--font-sans); letter-spacing: 0.2em; display: block; opacity: 0; transform: translateX(-10px); }
+
+        .page-header { padding: 100px 5% 60px; background-color: var(--col-white); text-align: center; }
+        .page-title { font-size: 3rem; margin-bottom: 15px; letter-spacing: 0.1em; }
+        .page-subtitle { font-size: 0.9rem; color: var(--col-accent); font-family: var(--font-sans); }
+        .content-block { padding: 60px 5%; max-width: 1000px; margin: 0 auto; }
+
+        /* Animation Utility Classes */
+        .u-overflow-hidden { overflow: hidden; }
+        .char-reveal { display: inline-block; opacity: 0; will-change: opacity, transform, filter; } 
+        
+        /* Parallax & Hover Effect Wrapper */
+        .img-parallax-wrapper { overflow: hidden; position: relative; cursor: pointer; }
+        .js-parallax-img { 
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s; 
+            will-change: transform;
+            width: 100%; height: 120%; object-fit: cover;
+        }
+        .img-parallax-wrapper:hover .js-parallax-img {
+            transform: scale(1.05) !important;
+            filter: brightness(1.1);
+        }
+        
+        /* --- Header --- */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+            padding: 0 5%; display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background-color: rgba(250, 250, 250, 0.85);
+            backdrop-filter: blur(15px); color: var(--col-text); transition: all 0.5s;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .header__logo { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 500; cursor: pointer; letter-spacing: 0.1em;}
+        .header__nav-pc { display: none; }
+        @media (min-width: 1024px) {
+            .header__nav-pc { display: block; }
+            .nav__list { display: flex; gap: 30px; align-items: center; }
+            .nav__item { font-size: 0.85rem; letter-spacing: 0.1em; position: relative; cursor: pointer; }
+            .nav__item::after {
+                content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px;
+                background-color: currentColor; transition: width 0.4s var(--easing);
+            }
+            .nav__item:hover::after { width: 100%; }
+        }
+        .btn-ai-nav {
+            display: inline-flex; align-items: center; gap: 8px;
+            border: 1px solid var(--col-line); padding: 8px 18px;
+            border-radius: 20px; transition: all 0.3s; background: #fff; cursor: pointer;
+            font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.05em;
+        }
+        .btn-ai-nav:hover { background: var(--col-text); color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .hamburger {
+            width: 40px; height: 40px; position: relative; cursor: pointer; z-index: 1001;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .hamburger span {
+            position: absolute; left: 5px; width: 30px; height: 1px;
+            background-color: currentColor; transition: all 0.4s var(--easing);
+        }
+        .hamburger span:nth-of-type(1) { top: 14px; }
+        .hamburger span:nth-of-type(2) { top: 20px; width: 20px; right: 5px; left: auto;} 
+        .hamburger span:nth-of-type(3) { bottom: 13px; }
+
+        /* --- Mobile Menu --- */
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: var(--col-base); z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
+            color: var(--col-text);
+        }
+        .mobile-menu.active { opacity: 1; visibility: visible; }
+        .mobile-menu .nav__list { flex-direction: column; text-align: center; gap: 30px; }
+        .mobile-menu .nav__item { font-size: 1.2rem; }
+        .mobile-menu__close {
+            position: absolute; top: 30px; right: 5%; width: 50px; height: 50px;
+            background: none; border: none; cursor: pointer;
+        }
+        .mobile-menu__close span {
+            position: absolute; width: 30px; height: 1px; background-color: var(--col-text); display: block; left: 10px; top: 25px;
+        }
+        .mobile-menu__close span:nth-child(1) { transform: rotate(45deg); }
+        .mobile-menu__close span:nth-child(2) { transform: rotate(-45deg); }
+
+        /* --- Top Hero --- */
+        .hero { position: relative; width: 100%; height: 100vh; overflow: hidden; background-color: #000; }
+        .hero__bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transform: scale(1.1); transition: opacity 2s ease-in-out; z-index: 1;
+        }
+        .hero__bg.active { opacity: 1; z-index: 2; animation: kenburns 20s linear infinite alternate; }
+        @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
+        .hero__content {
+            position: absolute; top: 25%; right: 10%; z-index: 30;
+            color: #fff; text-shadow: 0 0 40px rgba(0,0,0,0.4); writing-mode: vertical-rl;
+        }
+        /* Typography Adjustment */
+        .hero__title {
+            font-size: 3.5rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            margin-left: 30px;
+            line-height: 2.2;
+            font-feature-settings: "palt";
+        }
+        .hero__subtitle {
+            font-size: 1.1rem;
+            font-family: var(--font-sans);
+            letter-spacing: 0.4em;
+            opacity: 0.9;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .hero__content { top: 20%; right: 5%; }
+            .hero__title { font-size: 2.2rem; letter-spacing: 0.3em; margin-left: 20px; line-height: 2.0; }
+            .hero__subtitle { font-size: 0.9rem; margin-top: 20px; }
+        }
+        
+        .scroll-marquee {
+            position: fixed; top: 50%; left: 0; width: 100%; transform: translateY(-50%) rotate(-5deg);
+            z-index: 0; pointer-events: none; overflow: hidden; opacity: 0.03; mix-blend-mode: multiply;
+        }
+        .scroll-marquee__inner { white-space: nowrap; display: flex; }
+        .scroll-marquee__text {
+            font-family: var(--font-sans); font-size: 15vw; font-weight: 700; color: var(--col-text);
+            padding-right: 50px; will-change: transform;
+        }
+
+        /* --- Top Page Sections --- */
+        .concept__list { display: flex; flex-direction: column; gap: 120px; }
+        .concept__item { display: flex; flex-direction: column; gap: 40px; position: relative; }
+        @media (min-width: 768px) {
+            .concept__item { flex-direction: row; align-items: center; gap: 80px; }
+            .concept__item:nth-child(even) { flex-direction: row-reverse; }
+        }
+        .concept__img-wrap { 
+            flex: 1.2; aspect-ratio: 4/3; overflow: hidden; border-radius: 2px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        }
+        
+        .concept__info { flex: 1; position: relative; z-index: 2; }
+        .concept__head { 
+            font-size: 2.2rem; margin-bottom: 25px; border-bottom: 1px solid var(--col-line); 
+            display: inline-block; padding-bottom: 10px;
+        }
+        .concept__num { font-size: 3rem; color: var(--col-accent); display: block; margin-bottom: 5px; opacity: 0.3; font-family: var(--font-serif);}
+        .concept__body { line-height: 2.2; text-align: justify; }
+
+        /* Swiper Arrows */
+        .gallery__slider { overflow: visible; padding-bottom: 80px; position: relative; }
+        .gallery__slide { 
+            width: 80vw; max-width: 600px; opacity: 0.4; transition: opacity 0.6s, transform 0.6s; cursor: pointer; transform: scale(0.9);
+        }
+        .gallery__slide.swiper-slide-active { opacity: 1; transform: scale(1); z-index: 10; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .gallery__link img { width: 100%; aspect-ratio: 3/2; object-fit: cover; }
+        .gallery__info { 
+            margin-top: 20px; opacity: 0; transform: translateY(10px); transition: all 0.5s; text-align: center;
+        }
+        .gallery__slide.swiper-slide-active .gallery__info { opacity: 1; transform: translateY(0); }
+        
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--col-text); width: 60px; height: 60px;
+            background: rgba(255, 255, 255, 0.9); border-radius: 50%;
+            backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover { background: #fff; transform: scale(1.1); }
+        .swiper-button-next:after, .swiper-button-prev:after { font-size: 1.5rem; }
+
+        .modelhouse__container { display: flex; flex-direction: column; gap: 80px; }
+        .modelhouse__item { display: block; cursor: pointer; position: relative; }
+        .modelhouse__image-area { 
+            aspect-ratio: 21/9; margin-bottom: 30px; overflow: hidden; position: relative;
+        }
+        .modelhouse__meta { 
+            background: #fff; padding: 40px; margin-top: -60px; width: 90%; margin-left: auto; margin-right: auto;
+            position: relative; z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: transform 0.4s;
+        }
+        .modelhouse__item:hover .modelhouse__meta { transform: translateY(-10px); }
+        .modelhouse__name { font-size: 1.8rem; margin-bottom: 10px; font-family: var(--font-serif); }
+        .modelhouse__desc { font-size: 0.95rem; color: var(--col-text-light); }
+
+        /* --- SPA Pages --- */
+        .company-table, .recruit-table { width: 100%; border-collapse: collapse; margin-bottom: 60px; font-size: 0.95rem; }
+        .company-table th, .company-table td, .recruit-table th, .recruit-table td {
+            padding: 20px; border-bottom: 1px solid var(--col-line); text-align: left; display: block;
+        }
+        @media (min-width: 768px) {
+            .company-table th, .company-table td, .recruit-table th, .recruit-table td { display: table-cell; padding: 30px; }
+            .company-table th, .recruit-table th { width: 30%; }
+        }
+        .company-table th { color: var(--col-accent); font-weight: 500; }
+
+        .history-list { padding-left: 30px; border-left: 1px solid var(--col-line); margin-left: 15px; }
+        .history-item { margin-bottom: 40px; position: relative; }
+        .history-item::before {
+            content: ''; position: absolute; left: -36px; top: 8px; width: 12px; height: 12px;
+            background: var(--col-text); border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--col-text);
+        }
+
+        .news__list { border-top: 1px solid var(--col-line); }
+        .news__item { border-bottom: 1px solid var(--col-line); transition: background 0.3s; }
+        .news__item:hover { background: #f9f9f9; }
+        .news__link { display: flex; flex-direction: column; padding: 25px 0; gap: 15px; cursor: pointer; }
+        @media (min-width: 768px) {
+            .news__link { flex-direction: row; align-items: baseline; gap: 50px; padding: 40px 20px; }
+        }
+        .news__date { font-family: var(--font-sans); color: var(--col-text-light); letter-spacing: 0.05em; }
+        .news__cat {
+            font-family: var(--font-sans); font-size: 0.8rem; padding: 4px 12px;
+            border: 1px solid var(--col-accent); color: var(--col-accent); width: fit-content;
+        }
+        .news__title { font-size: 1.1rem; }
+
+        .form__row { margin-bottom: 30px; }
+        .form__label { display: block; margin-bottom: 10px; font-size: 0.9rem; letter-spacing: 0.1em; }
+        .form__input, .form__textarea {
+            width: 100%; padding: 15px; border: 1px solid var(--col-line);
+            background-color: #fafafa; font-size: 1rem; transition: all 0.3s;
+        }
+        .form__input:focus, .form__textarea:focus { background: #fff; outline: 1px solid var(--col-text); }
+        .form__textarea { height: 180px; resize: vertical; }
+        .form__btn {
+            background-color: var(--col-text); color: #fff; border: none;
+            padding: 18px 80px; cursor: pointer; font-family: var(--font-serif);
+            transition: all 0.3s; display: block; margin: 0 auto; letter-spacing: 0.2em;
+        }
+        .form__btn:hover { opacity: 0.8; transform: scale(1.02); }
+
+        /* --- Footer --- */
+        .footer { background-color: var(--col-black); color: #ccc; padding: 100px 5% 50px; font-family: var(--font-sans); position: relative; z-index: 10; }
+        .footer__inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 60px; }
+        @media(min-width:768px){ .footer__inner { flex-direction: row; justify-content: space-between; } }
+        .footer__nav ul { display: flex; gap: 20px 40px; flex-wrap: wrap; }
+        .footer__logo { font-family: var(--font-serif); font-size: 2rem; color: #fff; margin-bottom: 20px; display: block; }
+
+        /* --- Modals --- */
+        .common-modal, .ai-modal, .case-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.98); z-index: 5000;
+            opacity: 0; visibility: hidden; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); overflow-y: auto;
+        }
+        .common-modal.active, .ai-modal.active, .case-modal.active { opacity: 1; visibility: visible; }
+        
+        .modal-close-btn {
+            position: fixed; top: 30px; right: 30px; width: 50px; height: 50px;
+            cursor: pointer; background: rgba(255,255,255,0.9); border-radius: 50%; z-index: 5001; border: 1px solid #eee;
+            transition: transform 0.3s;
+        }
+        .modal-close-btn:hover { transform: rotate(90deg); }
+        .modal-close-btn::before, .modal-close-btn::after {
+            content: ''; position: absolute; top: 50%; left: 25%; width: 50%; height: 1px;
+            background: var(--col-text);
+        }
+        .modal-close-btn::before { transform: rotate(45deg); }
+        .modal-close-btn::after { transform: rotate(-45deg); }
+        .modal-content-wrap { max-width: 800px; margin: 100px auto; padding: 0 5% 120px; opacity: 0; transform: translateY(40px); transition: all 0.6s 0.2s; }
+        .active .modal-content-wrap { opacity: 1; transform: translateY(0); }
+
+        /* Case Modal Specific */
+        .case-modal__hero { width: 100%; height: 60vh; overflow: hidden; margin-bottom: 60px; border-radius: 4px; }
+        .case-modal__img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.1); transition: transform 10s; }
+        .active .case-modal__img { transform: scale(1); }
+        .case-modal__points { background: #f9f9f9; padding: 50px; margin-top: 60px; border-radius: 4px; }
+        .case-modal__points h4 { margin-bottom: 20px; font-weight: bold; border-bottom: 1px solid var(--col-accent); display: inline-block; padding-bottom: 5px; }
+        .case-modal__points li { list-style: none; margin-bottom: 15px; color: var(--col-text); padding-left: 20px; position: relative; }
+        .case-modal__points li::before { content: '◆'; color: var(--col-accent); position: absolute; left: 0; font-size: 0.8rem; top: 4px; }
+
+        /* AI Modal Specific */
+        .ai-form textarea { width: 100%; height: 180px; padding: 20px; border: 1px solid #ccc; margin: 30px 0; border-radius: 4px; font-family: sans-serif; font-size: 1.1rem; line-height: 1.8; }
+        .ai-result { display: none; margin-top: 40px; padding: 50px; background: #f5f5f5; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        /* Map Placeholder */
+        .map-placeholder {
+            width: 100%; height: 400px; background-color: #e0e0e0;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border-radius: 8px; color: #666; font-family: var(--font-sans);
+            background-image: repeating-linear-gradient(45deg, #e0e0e0 25%, #f0f0f0 25%, #f0f0f0 50%, #e0e0e0 50%, #e0e0e0 75%, #f0f0f0 75%, #f0f0f0 100%);
+            background-size: 20px 20px; border: 1px solid #ccc;
+        }
+        .map-pin { font-size: 3rem; color: #d9534f; text-shadow: 0 5px 10px rgba(0,0,0,0.2); animation: bounce 1s infinite alternate; }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 30px; left: 5%; width: 90%; background-color: var(--col-text);
+            color: #fff; padding: 20px; border-radius: 4px; z-index: 9999; text-align: center;
+            opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.5s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .toast.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        @media(min-width:768px){ .toast { width: auto; left: auto; right: 40px; text-align: left; padding: 20px 40px; } }
+    </style>
+</head>
+<body>
+
+    <div id="loading">
+        <div class="loading__content">
+            <h1 class="loading__logo">Grand Alps</h1>
+        </div>
+        <div id="grid-opening"></div>
+    </div>
+
+    <!-- SPA Transition Curtain -->
+    <div class="page-transition-curtain"></div>
+
+    <!-- Scroll Text -->
+    <div class="scroll-marquee">
+        <div class="scroll-marquee__inner">
+            <div class="scroll-marquee__text">GRAND ALPS DESIGN ARCHITECTS - SHINSHU - MATSUMOTO -</div>
+            <div class="scroll-marquee__text">GRAND ALPS DESIGN ARCHITECTS - SHINSHU - MATSUMOTO -</div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header__logo" onclick="app.goToSection('top')">Grand Alps</div>
+        <nav class="header__nav-pc">
+            <ul class="nav__list">
+                <li class="nav__item" onclick="app.goToSection('concept')">理念</li>
+                <li class="nav__item" onclick="app.goToSection('works')">事例</li>
+                <li class="nav__item" onclick="app.goToSection('modelhouse')">展示場</li>
+                <li class="nav__item" onclick="app.router('company')">会社概要</li>
+                <li class="nav__item" onclick="app.router('news')">ニュース</li>
+                <li class="nav__item" onclick="app.router('recruit')">採用</li>
+                <li class="nav__item" onclick="app.router('contact')">お問い合わせ</li>
+                <li class="nav__item"><button class="btn-ai-nav js-open-ai">✨ AI 診断</button></li>
+            </ul>
+        </nav>
+        <div class="header__actions">
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <button class="mobile-menu__close"><span></span><span></span></button>
+        <ul class="nav__list">
+            <li class="nav__item" onclick="app.goToSection('concept')">Concept</li>
+            <li class="nav__item" onclick="app.goToSection('works')">Works</li>
+            <li class="nav__item" onclick="app.goToSection('modelhouse')">Model House</li>
+            <li class="nav__item" onclick="app.router('company')">Company</li>
+            <li class="nav__item" onclick="app.router('news')">News</li>
+            <li class="nav__item" onclick="app.router('recruit')">Recruit</li>
+            <li class="nav__item" onclick="app.router('contact')">Contact</li>
+            <li class="nav__item js-open-ai">AI Architect</li>
+        </ul>
+    </div>
+
+    <!-- MAIN APP -->
+    <main id="app">
+
+        <!-- 1. PAGE TOP (Scrollable LP) -->
+        <section id="page-top" class="active">
+            
+            <div id="top" class="hero">
+                <div class="hero__content">
+                    <p class="hero__title js-text-reveal">信州の風土と、<br>美しく暮らす。</p>
+                    <p class="hero__subtitle js-fade-up">Grand Alps</p>
+                </div>
+                <!-- Images by JS -->
+            </div>
+
+            <section id="concept" class="section">
+                <div class="section__header">
+                    <h2 class="section__title"><span class="section__title-line"></span>Concept</h2>
+                    <p class="section__subtitle">家づくりの理念</p>
+                </div>
+                <div class="concept__list">
+                    <div class="concept__item">
+                        <div class="concept__img-wrap img-parallax-wrapper">
+                            <img src="https://i.imgur.com/kPVKMur.png" alt="Design" class="js-parallax-img">
+                        </div>
+                        <div class="concept__info js-fade-up">
+                            <h3 class="concept__head"><span class="concept__num">01</span>Design</h3>
+                            <p class="concept__body js-text-reveal-body">周囲の風景に溶け込む普遍的な美しさ。華美な装飾を削ぎ落とし、素材そのものの美しさを引き出す「引き算のデザイン」を追求しています。</p>
+                        </div>
+                    </div>
+                    <div class="concept__item">
+                        <div class="concept__img-wrap img-parallax-wrapper">
+                            <img src="https://i.imgur.com/WNCkbZV.png" alt="Quality" class="js-parallax-img">
+                        </div>
+                        <div class="concept__info js-fade-up">
+                            <h3 class="concept__head"><span class="concept__num">02</span>Quality</h3>
+                            <p class="concept__body js-text-reveal-body">信州の厳しい冬も、湿度の高い夏も、一年を通して快適に。HEAT20 G2/G3レベルの断熱性能を標準とし、エネルギーロスを最小限に抑えます。</p>
+                        </div>
+                    </div>
+                    <div class="concept__item">
+                        <div class="concept__img-wrap img-parallax-wrapper">
+                            <img src="https://i.imgur.com/CFLMQuu.png" alt="Customer" class="js-parallax-img">
+                        </div>
+                        <div class="concept__info js-fade-up">
+                            <h3 class="concept__head"><span class="concept__num">03</span>Customer First</h3>
+                            <p class="concept__body js-text-reveal-body">家づくりは、お客様との対話から始まります。潜在的な要望を引き出し、プロフェッショナルとしての視点を加えてカタチにします。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="works" class="section">
+                <div class="section__header">
+                    <h2 class="section__title"><span class="section__title-line"></span>Works</h2>
+                    <p class="section__subtitle">施工事例</p>
+                </div>
+                <div class="swiper gallery__slider js-fade-up">
+                    <div class="swiper-wrapper" id="works-slider-wrapper">
+                        <!-- JS Insert -->
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </section>
+
+            <section id="modelhouse" class="section">
+                <div class="section__header">
+                    <h2 class="section__title"><span class="section__title-line"></span>Model House</h2>
+                    <p class="section__subtitle">展示場アクセス</p>
+                </div>
+                <div class="modelhouse__container">
+                    <div class="modelhouse__item js-fade-up" onclick="app.router('modelhouse-detail', 'nagano')">
+                        <div class="modelhouse__image-area img-parallax-wrapper">
+                            <img src="https://i.imgur.com/0KFHFAo.jpeg" class="js-parallax-img">
+                        </div>
+                        <div class="modelhouse__meta">
+                            <h3 class="modelhouse__name">長野本社ショールーム</h3>
+                            <p class="modelhouse__desc">長野県長野市南県町1000-1</p>
+                        </div>
+                    </div>
+                    <div class="modelhouse__item js-fade-up" onclick="app.router('modelhouse-detail', 'matsumoto')">
+                        <div class="modelhouse__image-area img-parallax-wrapper">
+                            <img src="https://i.imgur.com/3V2F8Sg.jpeg" class="js-parallax-img">
+                        </div>
+                        <div class="modelhouse__meta">
+                            <h3 class="modelhouse__name">松本支店モデルハウス</h3>
+                            <p class="modelhouse__desc">長野県松本市中央2-20-2</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="footer js-bg-reveal">
+                <div class="footer__inner">
+                    <div class="footer__logo">Grand Alps</div>
+                    <nav class="footer__nav">
+                        <ul>
+                            <li onclick="app.router('company')">会社概要</li>
+                            <li onclick="app.router('news')">ニュース</li>
+                            <li onclick="app.router('recruit')">採用</li>
+                            <li onclick="app.router('contact')">お問い合わせ</li>
+                        </ul>
+                    </nav>
+                </div>
+                <p class="footer__copy">&copy; 2024 Grand Alps Inc.</p>
+            </footer>
+        </section>
+
+        <!-- 2. COMPANY PAGE (SPA) -->
+        <section id="page-company" class="spa-page">
+            <div class="page-header"><h2 class="page-title">Company</h2><p class="page-subtitle">会社概要</p></div>
+            <div class="content-block">
+                <table class="company-table">
+                    <tr><th>会社名</th><td>株式会社グラン・アルプス</td></tr>
+                    <tr><th>代表者</th><td>代表取締役　信州 健一</td></tr>
+                    <tr><th>所在地</th><td>〒380-0836 長野県長野市南県町1000-1</td></tr>
+                    <tr><th>設立</th><td>1985年4月</td></tr>
+                    <tr><th>資本金</th><td>5,000万円</td></tr>
+                </table>
+                <h3 style="font-size:1.5rem; margin:60px 0 30px;">History</h3>
+                <div class="history-list">
+                    <div class="history-item"><p>1985.04 長野市にて創業</p></div>
+                    <div class="history-item"><p>2005.10 松本支店を開設</p></div>
+                    <div class="history-item"><p>2020.04 「Grand Alps」ブランド設立</p></div>
+                </div>
+            </div>
+            <footer class="footer"><div class="footer__inner"><p class="footer__copy">&copy; 2024 Grand Alps Inc.</p></div></footer>
+        </section>
+
+        <!-- 3. NEWS PAGE (SPA) -->
+        <section id="page-news" class="spa-page">
+            <div class="page-header"><h2 class="page-title">News</h2><p class="page-subtitle">お知らせ</p></div>
+            <div class="content-block">
+                <div class="news__list" id="news-container"></div>
+            </div>
+            <footer class="footer"><div class="footer__inner"><p class="footer__copy">&copy; 2024 Grand Alps Inc.</p></div></footer>
+        </section>
+
+        <!-- 4. RECRUIT PAGE (SPA) -->
+        <section id="page-recruit" class="spa-page">
+            <div class="page-header"><h2 class="page-title">Recruit</h2><p class="page-subtitle">採用情報</p></div>
+            <div class="content-block">
+                <p style="margin-bottom:40px; text-align:center; line-height:2;">
+                    建築が好きで、信州が好き。<br>そんな仲間を募集しています。
+                </p>
+                <table class="recruit-table">
+                    <tr><th>募集職種</th><td>設計士、施工管理</td></tr>
+                    <tr><th>勤務地</th><td>長野本社、松本支店</td></tr>
+                    <tr><th>給与</th><td>月給25万円〜</td></tr>
+                </table>
+                <div style="text-align:center; margin-top:40px;">
+                    <button class="form__btn" onclick="app.router('contact')">応募フォームへ</button>
+                </div>
+            </div>
+            <footer class="footer"><div class="footer__inner"><p class="footer__copy">&copy; 2024 Grand Alps Inc.</p></div></footer>
+        </section>
+
+        <!-- 5. CONTACT PAGE (SPA) -->
+        <section id="page-contact" class="spa-page">
+            <div class="page-header"><h2 class="page-title">Contact</h2><p class="page-subtitle">お問い合わせ</p></div>
+            <div class="content-block">
+                <form class="form">
+                    <div class="form__row"><label class="form__label">お名前</label><input type="text" name="name" class="form__input" placeholder="例: 信州 太郎"></div>
+                    <div class="form__row"><label class="form__label">Email</label><input type="email" name="email" class="form__input" placeholder="info@example.com"></div>
+                    <div class="form__row"><label class="form__label">内容</label><textarea name="message" class="form__textarea"></textarea></div>
+                    <button type="button" class="form__btn">送信する</button>
+                </form>
+            </div>
+            <footer class="footer"><div class="footer__inner"><p class="footer__copy">&copy; 2024 Grand Alps Inc.</p></div></footer>
+        </section>
+        
+    </main>
+
+    <!-- Modals -->
+    <div id="ai-modal" class="ai-modal">
+        <button class="modal-close-btn js-close-modal"></button>
+        <div class="modal-content-wrap">
+            <h2 class="page-title" style="text-align:center;">AI Lifestyle Architect</h2>
+            <div class="ai-form">
+                <p>理想の暮らしを教えてください。</p>
+                <textarea id="ai-input" placeholder="例：週末は薪ストーブで..."></textarea>
+                <button id="ai-submit-btn" class="form__btn">生成</button>
+                <div id="ai-loading" style="display:none; text-align:center; margin-top:20px;">Generating...</div>
+            </div>
+            <div id="ai-result" class="ai-result">
+                <h3 id="ai-res-title" style="font-size:1.8rem; margin-bottom:20px; font-family:var(--font-serif);"></h3>
+                <p id="ai-res-concept" style="line-height:2.0;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Case Modal -->
+    <div id="case-modal" class="case-modal">
+        <button class="modal-close-btn js-close-modal"></button>
+        <div class="modal-content-wrap">
+            <div class="case-modal__hero"><img src="" class="case-modal__img"></div>
+            <h2 class="case-modal__title page-title"></h2>
+            <p class="case-modal__desc" style="line-height:2.0; margin-bottom:40px;"></p>
+            <div class="case-modal__points">
+                <h4>Design Points</h4>
+                <ul class="case-modal__points-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Common Modal -->
+    <div id="common-modal" class="common-modal">
+        <button class="modal-close-btn js-close-modal"></button>
+        <div class="modal-content-wrap">
+            <h3 class="modal-title page-title"></h3>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">お問い合わせを受け付けました。</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Lenis for smooth scrolling -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = __app_id || 'default-app-id';
+        signInAnonymously(auth).catch(console.error);
+
+        // --- Lenis Init ---
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Sync Lenis with GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{
+            lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+
+        // --- Hybrid Router ---
+        window.app = {
+            currentPage: 'top',
+            isAnimating: false,
+            
+            // For SPA Pages
+            router: function(pageId, detailId) {
+                if(this.isAnimating || this.currentPage === pageId) return;
+                this.isAnimating = true;
+                
+                // Special handling for detail modals (ModelHouse)
+                if(pageId === 'modelhouse-detail') {
+                    this.isAnimating = false;
+                    const data = {
+                        nagano: {
+                            addr: "【長野本社】\n〒380-0836 長野県長野市南県町1000-1\nTEL: 026-000-0000",
+                            title: "長野本社"
+                        },
+                        matsumoto: {
+                            addr: "【松本支店】\n〒390-0811 長野県松本市中央2-20-2\nTEL: 026-000-0000",
+                            title: "松本支店"
+                        }
+                    };
+                    const target = data[detailId];
+                    if(target) {
+                        const m = document.getElementById('common-modal');
+                        m.querySelector('.modal-title').innerText = target.title;
+                        // Map Placeholder Injection
+                        m.querySelector('.modal-body').innerHTML = `
+                            <p style="white-space:pre-wrap; margin-bottom:30px; line-height:1.8;">${target.addr}</p>
+                            <div class="map-placeholder">
+                                <span class="map-pin">📍</span>
+                                <div style="font-weight:bold; margin-top:10px; font-size:1.1rem;">${target.title}</div>
+                                <div style="font-size:0.8rem; margin-top:5px;">${detailId === 'nagano' ? '長野市南県町1000-1' : '松本市中央2-20-2'}</div>
+                            </div>
+                        `;
+                        m.classList.add('active');
+                    }
+                    return;
+                }
+
+                // Page Transition
+                document.querySelector('.mobile-menu').classList.remove('active');
+                const curtain = document.querySelector('.page-transition-curtain');
+                const currentSec = document.getElementById(this.currentPage === 'top' ? 'page-top' : 'page-' + this.currentPage);
+                const nextSec = document.getElementById(pageId === 'top' ? 'page-top' : 'page-' + pageId);
+
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        this.currentPage = pageId;
+                        this.isAnimating = false;
+                        window.scrollTo(0, 0);
+                        lenis.scrollTo(0, {immediate: true}); // Reset Lenis scroll
+                        ScrollTrigger.refresh();
+                        // Re-trigger reveal animations
+                        initScrollAnimations();
+                    }
+                });
+
+                tl.to(curtain, { scaleY: 1, duration: 0.5, ease: 'power3.inOut' })
+                  .add(() => {
+                      if(currentSec) currentSec.style.display = 'none';
+                      if(nextSec) {
+                          nextSec.style.display = 'block';
+                          if(pageId !== 'top') nextSec.classList.add('is-active');
+                      }
+                  })
+                  .to(curtain, { scaleY: 0, duration: 0.5, ease: 'power3.inOut', transformOrigin: 'top' });
+            },
+
+            // For Scroll Sections
+            goToSection: function(sectionId) {
+                document.querySelector('.mobile-menu').classList.remove('active');
+                if(this.currentPage !== 'top') {
+                    // Go to Top first
+                    this.router('top');
+                    setTimeout(() => {
+                        const el = document.getElementById(sectionId);
+                        if(el) lenis.scrollTo(el, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+                    }, 1200);
+                } else {
+                    const el = document.getElementById(sectionId);
+                    if(el) lenis.scrollTo(el, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+                }
+            }
+        };
+
+        // --- Animation Functions ---
+        function initScrollAnimations() {
+            // Text Reveal (Character Split)
+            document.querySelectorAll('.js-text-reveal').forEach(el => {
+                if(el.dataset.split) return; // Prevent double split
+                const text = el.textContent;
+                el.innerHTML = '';
+                text.split('').forEach(char => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.className = 'char-reveal';
+                    if(char === ' ' || char === '\n') span.style.display = 'inline'; // Preserve spaces
+                    if(char === '、' || char === '。') span.style.display = 'inline-block';
+                    el.appendChild(span);
+                });
+                el.dataset.split = true;
+                
+                // Cinematic Blur Reveal
+                gsap.fromTo(el.querySelectorAll('.char-reveal'), 
+                    { opacity: 0, y: 40, filter: 'blur(10px)' },
+                    {
+                        opacity: 1, y: 0, filter: 'blur(0px)',
+                        duration: 1.5, stagger: 0.12, ease: 'power3.out',
+                        scrollTrigger: { trigger: el, start: 'top 85%' }
+                    }
+                );
+            });
+
+            // Fade Up
+            gsap.utils.toArray('.js-fade-up').forEach(t => {
+                gsap.fromTo(t, 
+                    {opacity:0, y:50}, 
+                    {opacity:1, y:0, duration:1.2, ease:'power3.out', scrollTrigger:{trigger:t, start:'top 90%'}}
+                );
+            });
+
+            // Parallax Images (Vertical Only to allow CSS hover scale)
+            gsap.utils.toArray('.js-parallax-img').forEach(img => {
+                gsap.fromTo(img,
+                    { y: -30 },
+                    { y: 30, ease: 'none', scrollTrigger: {
+                        trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true
+                    }}
+                );
+            });
+
+            // Section Titles Lines
+            gsap.utils.toArray('.section__title-line').forEach(line => {
+                gsap.to(line, { scaleY: 1, duration: 1, ease: 'power3.inOut', scrollTrigger: { trigger: line.parentElement, start: 'top 85%' } });
+            });
+            // Section Subtitles
+            gsap.utils.toArray('.section__subtitle').forEach(sub => {
+                gsap.to(sub, { opacity: 1, x: 0, duration: 1, delay: 0.3, ease: 'power2.out', scrollTrigger: { trigger: sub.parentElement, start: 'top 85%' } });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- 1. Loading Animation ---
+            const tlLoad = gsap.timeline();
+            const houseImages = [
+                "https://i.imgur.com/HdrwZuy.jpeg", "https://i.imgur.com/PJTwQXM.jpeg",
+                "https://i.imgur.com/19KAPjO.jpeg", "https://i.imgur.com/oVuXXHc.jpeg"
+            ];
+            
+            const grid = document.getElementById('grid-opening');
+            const isMobile = window.innerWidth <= 768;
+            const cols = isMobile ? 2 : 4;
+            const rows = isMobile ? 4 : 2;
+            grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            for(let i=0; i<cols*rows; i++) {
+                const d = document.createElement('div');
+                d.className = 'grid-cell';
+                d.innerHTML = `<img src="${houseImages[i % houseImages.length]}">`;
+                grid.appendChild(d);
+            }
+
+            tlLoad.to('.loading__logo', { opacity: 1, y: 0, duration: 1 })
+                  .to('.grid-cell', { opacity: 1, duration: 0.5, stagger: { amount: 0.5, from: "random" } }, "-=0.5")
+                  .to('.loading__logo', { opacity: 0, duration: 0.5, delay: 0.5 })
+                  .to('.grid-cell', { opacity: 0, scale: 0.8, duration: 0.8, stagger: { amount: 0.5, from: "end" }, ease: "power2.in" })
+                  .to('#loading', { opacity: 0, duration: 0.5, onComplete: () => {
+                      document.getElementById('loading').style.display='none';
+                      // Start Hero Anim after load
+                      initScrollAnimations();
+                  }});
+
+            // --- 2. Content Init ---
+            // Hero BG
+            const hero = document.querySelector('.hero');
+            const hBgs = [
+                "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=75&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=75&w=1200&auto=format&fit=crop"
+            ];
+            hBgs.forEach((u,i) => {
+                const d = document.createElement('div');
+                d.className = `hero__bg ${i===0?'active':''}`;
+                d.innerHTML = `<img src="${u}" style="width:100%;height:100%;object-fit:cover;">`;
+                hero.insertBefore(d, hero.firstChild);
+            });
+            let cHero = 0;
+            const bgs = document.querySelectorAll('.hero__bg');
+            setInterval(() => {
+                bgs[cHero].classList.remove('active');
+                cHero = (cHero+1)%bgs.length;
+                bgs[cHero].classList.add('active');
+            }, 6000);
+
+            // Works Slider Data
+            const wData = [
+                {
+                    img: "https://i.imgur.com/HdrwZuy.jpeg",
+                    title: "北アルプスを望む、展望の家",
+                    desc: "松本平を一望できる高台に位置し、リビングの大開口からは雄大な北アルプスをパノラマで楽しめます。",
+                    points: ["絶景を切り取るピクチャーウィンドウ", "信州産カラマツを使用した外壁", "薪ストーブのある土間リビング"]
+                },
+                {
+                    img: "https://i.imgur.com/PJTwQXM.jpeg",
+                    title: "静寂に包まれる和モダンの邸宅",
+                    desc: "善光寺界隈の街並みに調和する、落ち着いた佇まい。格子や軒の深いデザインなど、和の美意識を現代的に解釈。",
+                    points: ["陰影の美しさを演出する照明計画", "雪国に適した高床式基礎", "無垢材をふんだんに使用した内装"]
+                },
+                {
+                    img: "https://i.imgur.com/19KAPjO.jpeg",
+                    title: "県産材の温もりを感じるLDK",
+                    desc: "長野県産のアカマツやヒノキを構造・内装に使用。木の香りに包まれたLDKは、家族が自然と集まる温かい空間です。",
+                    points: ["県産材活用の補助金対象住宅", "調湿効果のある珪藻土の塗り壁", "オーダーメイドのキッチンカウンター"]
+                },
+                {
+                    img: "https://i.imgur.com/oVuXXHc.jpeg",
+                    title: "丘の上に建つ、薪ストーブのある家",
+                    desc: "安曇野の自然に抱かれた、スローライフを楽しむ家。週末には薪ストーブの炎を眺めながら、ゆったりとした時間を過ごせます。",
+                    points: ["メンテナンスしやすい薪ストーブ配置", "開放的な吹き抜けリビング", "四季を感じるウッドデッキ"]
+                }
+            ];
+            
+            const wWrapper = document.getElementById('works-slider-wrapper');
+            const caseModal = document.getElementById('case-modal');
+            const cmImg = caseModal.querySelector('.case-modal__img');
+            const cmTitle = caseModal.querySelector('.case-modal__title');
+            const cmDesc = caseModal.querySelector('.case-modal__desc');
+            const cmList = caseModal.querySelector('.case-modal__points-list');
+
+            wData.forEach((w, idx) => {
+                const s = document.createElement('div');
+                s.className = 'swiper-slide gallery__slide';
+                s.innerHTML = `
+                    <div class="gallery__link">
+                        <div class="img-parallax-wrapper" style="width:100%; aspect-ratio:3/2; border-radius:2px;">
+                            <img src="${w.img}" class="js-parallax-img">
+                        </div>
+                        <div class="gallery__info"><p class="u-serif">Case 0${idx+1}. ${w.title}</p></div>
+                    </div>`;
+                wWrapper.appendChild(s);
+                s.querySelector('.gallery__link').addEventListener('click', () => {
+                    cmImg.src = w.img;
+                    cmTitle.innerText = w.title;
+                    cmDesc.innerText = w.desc;
+                    cmList.innerHTML = '';
+                    w.points.forEach(p => {
+                        const li = document.createElement('li');
+                        li.innerText = p;
+                        cmList.appendChild(li);
+                    });
+                    caseModal.classList.add('active');
+                });
+            });
+
+            new Swiper('.gallery__slider', {
+                slidesPerView: 1.2, spaceBetween: 30, centeredSlides: true, loop: true,
+                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                breakpoints: { 768: { slidesPerView: 2.5, spaceBetween: 50 } }
+            });
+
+            // News
+            const nData = [
+                {d:'2024.12.01', c:'Event', t:'冬の暖炉体験会'},
+                {d:'2024.11.15', c:'News', t:'新卒採用エントリー開始'},
+                {d:'2024.10.20', c:'Media', t:'雑誌掲載のお知らせ'}
+            ];
+            const nCont = document.getElementById('news-container');
+            nData.forEach(n => {
+                const d = document.createElement('div');
+                d.className = 'news__item js-fade-up';
+                d.innerHTML = `
+                    <div class="news__link">
+                        <div class="news__date">${n.d}</div>
+                        <div class="news__cat">${n.c}</div>
+                        <div class="news__title">${n.t}</div>
+                    </div>`;
+                d.addEventListener('click', () => {
+                    const m = document.getElementById('common-modal');
+                    m.querySelector('.modal-title').innerText = n.t;
+                    m.querySelector('.modal-body').innerText = `${n.d}に発表された${n.t}の詳細情報です。\n\nこちらに詳細な本文が入ります。`;
+                    m.classList.add('active');
+                });
+                nCont.appendChild(d);
+            });
+
+            // Marquee
+            gsap.to(".scroll-marquee__text", { xPercent: -50, ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 1 } });
+
+            // UI Events
+            document.querySelector('.hamburger').addEventListener('click', ()=>document.querySelector('.mobile-menu').classList.add('active'));
+            document.querySelector('.mobile-menu__close').addEventListener('click', ()=>document.querySelector('.mobile-menu').classList.remove('active'));
+            document.querySelectorAll('.js-close-modal').forEach(b => b.addEventListener('click', function(){ this.closest('div[id$="-modal"]').classList.remove('active'); }));
+            
+            // AI
+            const aiModal = document.getElementById('ai-modal');
+            document.querySelectorAll('.js-open-ai').forEach(b => b.addEventListener('click', (e)=>{ e.preventDefault(); aiModal.classList.add('active'); document.querySelector('.mobile-menu').classList.remove('active'); }));
+            document.getElementById('ai-submit-btn').addEventListener('click', () => {
+                const v = document.getElementById('ai-input').value;
+                if(!v) return;
+                document.getElementById('ai-loading').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('ai-loading').style.display = 'none';
+                    document.getElementById('ai-result').style.display = 'block';
+                    document.getElementById('ai-res-title').innerText = "AI Concept Proposal";
+                    document.getElementById('ai-res-concept').innerText = `「${v}」というご要望に基づき、信州の自然と調和する静謐な空間をご提案します。`;
+                }, 1500);
+            });
+
+            // Form
+            const fBtn = document.querySelector('.form__btn');
+            if(fBtn) {
+                fBtn.addEventListener('click', async () => {
+                    const nm = document.querySelector('input[name="name"]').value;
+                    if(!nm) return;
+                    try {
+                        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'inquiries'), {
+                            name: nm,
+                            email: document.querySelector('input[name="email"]').value,
+                            message: document.querySelector('textarea[name="message"]').value,
+                            createdAt: serverTimestamp()
+                        });
+                        document.querySelector('.form').reset();
+                        document.getElementById('toast').classList.add('active');
+                        setTimeout(()=>document.getElementById('toast').classList.remove('active'), 3000);
+                    } catch(e) { alert('送信エラー'); }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
