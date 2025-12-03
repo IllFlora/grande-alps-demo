@@ -66,6 +66,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--col-base); z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.5s, visibility 0.5s;
         }
         .loading__content { text-align: center; z-index: 10001; position: relative; }
         .loading__logo {
@@ -690,12 +691,22 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = __app_id || 'default-app-id';
-        signInAnonymously(auth).catch(console.error);
+        // --- Firebase Init Safety ---
+        let db, appId;
+        try {
+            const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+            if (Object.keys(firebaseConfig).length > 0) {
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                db = getFirestore(app);
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                signInAnonymously(auth).catch(console.error);
+            } else {
+                console.warn('Firebase config unavailable. Database features disabled.');
+            }
+        } catch (e) {
+            console.warn('Firebase init failed:', e);
+        }
 
         // --- Lenis Init ---
         const lenis = new Lenis({
@@ -868,6 +879,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             gsap.registerPlugin(ScrollTrigger);
 
+            // Safety timeout to remove loading screen if something fails
+            setTimeout(() => {
+                const loading = document.getElementById('loading');
+                if (loading && loading.style.display !== 'none') {
+                    console.warn('Force removing loading screen');
+                    loading.style.display = 'none';
+                    initScrollAnimations();
+                }
+            }, 6000); // Increased to 6 seconds to cover animation duration
+
             // --- 1. Loading Animation ---
             const tlLoad = gsap.timeline();
             const houseImages = [
@@ -1038,18 +1059,30 @@
             if(fBtn) {
                 fBtn.addEventListener('click', async () => {
                     const nm = document.querySelector('input[name="name"]').value;
-                    if(!nm) return;
+                    const em = document.querySelector('input[name="email"]').value;
+                    if(!nm || !em) {
+                        alert('必須項目を入力してください');
+                        return;
+                    }
+                    
                     try {
-                        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'inquiries'), {
-                            name: nm,
-                            email: document.querySelector('input[name="email"]').value,
-                            message: document.querySelector('textarea[name="message"]').value,
-                            createdAt: serverTimestamp()
-                        });
+                        if(db) {
+                            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'inquiries'), {
+                                name: nm,
+                                email: em,
+                                message: document.querySelector('textarea[name="message"]').value,
+                                createdAt: serverTimestamp()
+                            });
+                        } else {
+                            console.log('Firebase not active, simulating submit');
+                        }
                         document.querySelector('.form').reset();
                         document.getElementById('toast').classList.add('active');
                         setTimeout(()=>document.getElementById('toast').classList.remove('active'), 3000);
-                    } catch(e) { alert('送信エラー'); }
+                    } catch(e) { 
+                        console.error(e);
+                        alert('送信エラーが発生しました。時間をおいて再度お試しください。'); 
+                    }
                 });
             }
         });
